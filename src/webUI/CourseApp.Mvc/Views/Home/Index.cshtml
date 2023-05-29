@@ -1,0 +1,79 @@
+﻿@model PaginationCourseViewModel
+@{
+    ViewData["Title"] = "Home Page";
+    var columnCount = 0;
+}
+
+
+
+<div class="row m-4">
+    @foreach (var courseDisplay in Model.Courses)
+    {
+        @if (columnCount != 0 && columnCount % 4 == 0)
+        {
+        @:</div><div class="row m-4">
+        }
+        <div class="col-3">
+            <partial name="_CourseDisplay" model="courseDisplay" />
+        </div>
+        columnCount++;
+    }
+</div>
+
+<div page-model="Model.PagingInfo" page-action="Index"></div>
+
+
+@*
+    <div>
+        <ul class="pagination pagination-lg">
+            <li class="page-item active" aria-current="page">
+                <span class="page-link">1</span>
+            </li>
+            @for (int i = 1; i <= ViewBag.TotalPage; i++)
+            {
+                <li class="page-item @(i==ViewBag.PageNo ? "active":"")">
+                    <a asp-action="Index" asp-route-pageNo="@i" class="page-link">@i</a>
+                </li>
+            }
+
+
+        </ul>
+    </div>
+*@
+
+<div class="toast-container position-fixed bottom-0 end-0 p-3">
+    <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header">
+            <strong class="me-auto">Sepet Bilgisi</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body">
+
+        </div>
+    </div>
+</div>
+
+
+@section Scripts{
+    <script>$(document).ready(function () { //Tarayıcı html dökümanını yükleyince, döküman hazır olunca
+
+            $('.basket').on('click', function () { //classı basket olan buton tıklanınca
+                let id = $(this).data('id'); //butonun data fonksiyonuyla id yi al
+                $.ajax({
+                    url: '/Shopping/AddCourse/' + id, //Nereye gönderileceği yazılır
+                    type: 'GET',
+                    success: function (data) {
+                        $('.toast-body').text(data.message);
+                        const toastLiveExample = document.getElementById('liveToast');
+                        const toastBootstrap = bootstrap.Toast.getOrCreateInstance(toastLiveExample);
+                        toastBootstrap.show();
+                        //alertify.success(data.message);
+                        //location = location;
+                    },
+                    error: function (err) {
+                        console.log('hata', error);
+                    }
+                });
+            });
+        });</script>
+}
