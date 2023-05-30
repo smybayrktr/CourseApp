@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/CourseApp.Mvc.styles.css" asp-append-version="true" />
+    <link href="~/alertifyjs/css/alertify.min.css" rel="stylesheet" />
 </head>
 <body>
     <header>
@@ -25,6 +26,7 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
+                        @await Component.InvokeAsync("BasketLink")
                     </ul>
                 </div>
             </div>
@@ -32,16 +34,15 @@
     </header>
     <div class="container">
         <div class="row">
-            <div class="col-2">
-                @await Component.InvokeAsync("Menu")
-            </div>
+            <div class="col-2">@await Component.InvokeAsync("Menu")</div>
             <div class="col-10">
                 <main role="main" class="pb-3">
                     @RenderBody()
                 </main>
             </div>
         </div>
-     
+
+
     </div>
 
     <footer class="border-top footer text-muted">
@@ -52,7 +53,7 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/alertifyjs/alertify.min.js"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
-
