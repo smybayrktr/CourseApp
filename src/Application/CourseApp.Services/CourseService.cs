@@ -1,6 +1,8 @@
 ﻿using System;
 using AutoMapper;
+using CourseApp.DataTransferObject.Requests;
 using CourseApp.DataTransferObject.Responses;
+using CourseApp.Entities;
 using CourseApp.Infrastructure.Repositories;
 using CourseApp.Services.Extensions;
 
@@ -42,7 +44,12 @@ namespace CourseApp.Services
             var course = _courseRepository.Get(id);
             return _mapper.Map<CourseDisplayResponse>(course);
         }
-       
+
+        public async Task CreateCourseAsync(CreateNewCourseRequest createNewCourseRequest)
+        {
+            var course = _mapper.Map<Course>(createNewCourseRequest);
+            await _courseRepository.CreateAsync(course);
+        }
     }
 }
 

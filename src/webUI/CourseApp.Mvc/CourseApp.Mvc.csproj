@@ -16,6 +16,7 @@
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="12.0.1" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="7.0.5" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="TagBuilders\" />
@@ -24,6 +25,8 @@
     <None Remove="Views\Shared\Components\Menu\" />
     <None Remove="Extensions\" />
     <None Remove="Views\Shared\Components\BasketLink\" />
+    <None Remove="Views\Courses\" />
+    <None Remove="Views\Users\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="TagBuilders\" />
@@ -32,5 +35,7 @@
     <Folder Include="Views\Shared\Components\Menu\" />
     <Folder Include="Extensions\" />
     <Folder Include="Views\Shared\Components\BasketLink\" />
+    <Folder Include="Views\Courses\" />
+    <Folder Include="Views\Users\" />
   </ItemGroup>
 </Project>
