@@ -1,19 +1,13 @@
 ﻿using CourseApp.Infrastructure.Data;
 using CourseApp.Infrastructure.Repositories;
+using CourseApp.Mvc.Extensions;
 using CourseApp.Services;
 using CourseApp.Services.Mappings;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
-
-// Add services to the container.
 builder.Services.AddControllersWithViews();
-builder.Services.AddScoped<ICourseService, CourseService>();
-builder.Services.AddScoped<ICourseRepository, EfCourseRepository>();
-builder.Services.AddScoped<ICategoryService, CategoryService>();
-builder.Services.AddScoped<ICategoryRepository, EfCategoryRepository>();
-builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddAutoMapper(typeof(MapProfile));
 
 builder.Services.AddSession(options =>
@@ -22,7 +16,7 @@ builder.Services.AddSession(options =>
 });
 
 var connectionString = builder.Configuration.GetConnectionString("db");
-builder.Services.AddDbContext<CourseDbContext>(opt => opt.UseSqlServer(connectionString));
+builder.Services.AddInjections(connectionString);
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
@@ -32,13 +26,20 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
                     opt.AccessDeniedPath = "/Users/AccessDenied"; //Üye ama yetkisi yok
                     opt.ReturnUrlParameter = "gidilecekSayfa";
                 });
+builder.Services.AddMemoryCache(); //Pipline a eklemedik.HttpRequestte bir operasyon yapmıyor. 
+builder.Services.AddResponseCaching(options =>
+{
+    options.SizeLimit=100000;//Sunucudan istemciye gönderilen yanıtın 100mblik limit
+
+
+
+});//Doğrudan Html response unu istemcide belli süre tutmasını söyler.
+
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 using var scope = app.Services.CreateScope();
@@ -48,6 +49,7 @@ context.Database.EnsureCreated();
 SeedData.SeedDatabase(context);
 
 app.UseHttpsRedirection();
+app.UseResponseCaching();
 app.UseStaticFiles();
 app.UseSession();
 app.UseRouting();

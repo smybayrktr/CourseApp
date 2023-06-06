@@ -27,6 +27,7 @@
     <None Remove="Views\Shared\Components\BasketLink\" />
     <None Remove="Views\Courses\" />
     <None Remove="Views\Users\" />
+    <None Remove="CacheTools\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="TagBuilders\" />
@@ -37,5 +38,6 @@
     <Folder Include="Views\Shared\Components\BasketLink\" />
     <Folder Include="Views\Courses\" />
     <Folder Include="Views\Users\" />
+    <Folder Include="CacheTools\" />
   </ItemGroup>
 </Project>
