@@ -50,6 +50,48 @@ namespace CourseApp.Services
             var course = _mapper.Map<Course>(createNewCourseRequest);
             await _courseRepository.CreateAsync(course);
         }
+
+        public async Task UpdateCourse(UpdateCourseRequest updateCourseRequest)
+        {
+            var course = _mapper.Map<Course>(updateCourseRequest);
+            await _courseRepository.UpdateAsync(course);
+
+        }
+
+        public async Task<bool> CourseIsExists(int courseId)
+        {
+            return await _courseRepository.IsExitsAsync(courseId);
+
+        }
+
+        public async Task<UpdateCourseRequest> GetCourseForUpdate(int id)
+        {
+            var course = await _courseRepository.GetAsync(id);
+            return _mapper.Map<UpdateCourseRequest>(course);
+
+        }
+
+        public Task<UpdateCourseRequest> GetCourseForUpdateAsync(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task DeleteAsync(int id)
+        {
+            await _courseRepository.DeleteAsync(id);
+
+        }
+        public async Task<IEnumerable<CourseDisplayResponse>> SearchByName(string name)
+        {
+            var courses = await _courseRepository.GetCoursesByName(name);
+            return courses.ConvertToDisplayResponses(_mapper);
+        }
+        public async Task<int> CreateCourseAndReturnIdAsync(CreateNewCourseRequest createNewCourseRequest)
+        {
+            var course = _mapper.Map<Course>(createNewCourseRequest);
+            await _courseRepository.CreateAsync(course);
+            return course.Id;
+        }
     }
 }
 

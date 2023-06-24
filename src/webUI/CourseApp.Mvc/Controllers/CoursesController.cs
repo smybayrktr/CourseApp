@@ -50,6 +50,32 @@ namespace CourseApp.Mvc.Controllers
 
         }
 
+        [HttpGet]
+        public async Task<IActionResult> Edit(int id)
+        {
+            ViewBag.Categories = getCategoriesForSelectList();
+            var course = await courseService.GetCourseForUpdate(id);
+
+            return View(course);
+        }
+        [HttpPost]
+        public async Task<IActionResult> Edit(int id, UpdateCourseRequest updateCourseRequest)
+        {
+            if (await courseService.CourseIsExists(id))
+            {
+                if (ModelState.IsValid)
+                {
+                    await courseService.UpdateCourse(updateCourseRequest);
+                    return RedirectToAction(nameof(Index));
+                }
+                ViewBag.Categories = getCategoriesForSelectList();
+                return View();
+            }
+            return NotFound();
+        }
+
+
+
         private IEnumerable<SelectListItem> getCategoriesForSelectList()
         {
             var categories = categoryService.GetCategoriesForList().Select(c => new SelectListItem { Text = c.Name, Value = c.Id.ToString() }).ToList();

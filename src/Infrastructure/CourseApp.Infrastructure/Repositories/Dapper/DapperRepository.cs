@@ -127,6 +127,11 @@ namespace CourseApp.Infrastructure.Repositories.Dapper
                 await connection.ExecuteAsync(query, entity);
             }
         }
+
+        public Task<bool> IsExitsAsync(int id)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
 

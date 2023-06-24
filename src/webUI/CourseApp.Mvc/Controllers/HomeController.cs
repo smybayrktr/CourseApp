@@ -107,7 +107,7 @@ public class HomeController : Controller
         ViewBag.DateTime = DateTime.Now;
         return View();
     }
-
+    //Cache saklanmasın diye yazılmış
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()
     {

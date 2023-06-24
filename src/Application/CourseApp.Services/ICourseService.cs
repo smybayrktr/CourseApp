@@ -14,6 +14,16 @@ namespace CourseApp.Services
         CourseDisplayResponse GetCourse(int id);
 
         Task CreateCourseAsync(CreateNewCourseRequest createNewCourseRequest);
+
+        Task UpdateCourse(UpdateCourseRequest updateCourseRequest);
+        Task<bool> CourseIsExists(int courseId);
+        Task DeleteAsync(int id);
+
+        Task<UpdateCourseRequest> GetCourseForUpdate(int id);
+        Task<IEnumerable<CourseDisplayResponse>> SearchByName(string name);
+
+
+        Task<int> CreateCourseAndReturnIdAsync(CreateNewCourseRequest createNewCourseRequest);
     }
 
 }

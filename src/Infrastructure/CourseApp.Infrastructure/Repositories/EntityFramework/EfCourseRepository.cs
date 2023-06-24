@@ -58,16 +58,26 @@ namespace CourseApp.Infrastructure.Repositories
             return courseDbContext.Courses.AsNoTracking().Where(c => c.CategoryId == categoryId).AsEnumerable();
         }
 
-        public IEnumerable<Course> GetCoursesByName(string name)
+        public async Task<IEnumerable<Course>> GetCoursesByName(string name)
         {
-            return courseDbContext.Courses.AsNoTracking().Where(c => c.Name.Contains(name)).AsEnumerable();
+            return await courseDbContext.Courses.AsNoTracking().Where(c => c.Name.Contains(name)).ToListAsync();
 
+        }
+
+        public async Task<bool> IsExitsAsync(int id)
+        {
+            return await courseDbContext.Courses.AnyAsync(c => c.Id == id);
         }
 
         public async Task UpdateAsync(Course entity)
         {
             courseDbContext.Courses.Update(entity);
             await courseDbContext.SaveChangesAsync();
+        }
+
+        public async Task<IEnumerable<Course>> GetCoursesByCategoryAsync(int categoryId)
+        {
+            return await courseDbContext.Courses.AsNoTracking().Where(c => c.CategoryId == categoryId).ToListAsync();
         }
     }
 }

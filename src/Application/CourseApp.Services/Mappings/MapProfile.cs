@@ -13,7 +13,7 @@ namespace CourseApp.Services.Mappings
 			CreateMap<Course, CourseDisplayResponse>();
             CreateMap<Category, CategoryDisplayResponse>();
             CreateMap<CreateNewCourseRequest, Course>();
-
+            CreateMap<UpdateCourseRequest, Course>().ReverseMap();
         }
     }
 }
